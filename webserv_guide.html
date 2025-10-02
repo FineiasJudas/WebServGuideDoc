@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebServ - Guia do Projeto</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 1.2em;
+        }
+
+        .section {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            color: #764ba2;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        h3 {
+            color: #667eea;
+            margin: 20px 0 10px 0;
+        }
+
+        .architecture {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .component {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            flex: 1;
+            min-width: 250px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .component:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .component h4 {
+            font-size: 1.3em;
+            margin-bottom: 15px;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 25px 0;
+        }
+
+        .member {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .member h4 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            border-bottom: 2px solid rgba(255,255,255,0.3);
+            padding-bottom: 10px;
+        }
+
+        .task-list {
+            list-style: none;
+            margin: 15px 0;
+        }
+
+        .task-list li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .task-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #4ade80;
+            font-weight: bold;
+        }
+
+        .flow-diagram {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 10px;
+            margin: 25px 0;
+            text-align: center;
+        }
+
+        .flow-step {
+            display: inline-block;
+            background: white;
+            border: 3px solid #667eea;
+            padding: 15px 25px;
+            margin: 10px;
+            border-radius: 10px;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .arrow {
+            display: inline-block;
+            font-size: 2em;
+            color: #764ba2;
+            margin: 0 10px;
+        }
+
+        .timeline {
+            position: relative;
+            padding: 30px 0;
+            
+        }
+
+        .timeline-item {
+            padding: 20px;
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            margin-bottom: 20px;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .timeline-item h4 {
+            color: #764ba2;
+            margin-bottom: 10px;
+        }
+
+        .warning {
+            background: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .important {
+            background: #f8d7da;
+            border-left: 5px solid #dc3545;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .tip {
+            background: #d1ecf1;
+            border-left: 5px solid #17a2b8;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        code {
+            background: #f4f4f4;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .feature {
+            background: #e9ecef;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        @media print {
+            body {
+                background: white;
+            }
+            .section {
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🚀 WebServ - HTTP Server em C++ 98</h1>
+            <p class="subtitle">Guia Completo do Projeto | Escola 42</p>
+        </header>
+
+        <div class="section">
+            <h2>📋 Visão Geral do Projeto</h2>
+            <p>Desenvolver um servidor HTTP completo em C++ 98, não-bloqueante, capaz de servir websites estáticos, processar CGI e gerenciar múltiplas conexões simultaneamente.
+            
+            <br><br>O projeto "webserv" da Escola 42 é uma implementação de um servidor HTTP em C++98, inspirado no protocolo HTTP (principalmente versão 1.0 ou 1.1, com base no RFC). O objetivo é criar um servidor web que lide com requisições de clientes (como navegadores ou ferramentas como telnet), processe configurações via arquivo, gerencie I/O não bloqueante e suporte funcionalidades básicas como servir arquivos estáticos, uploads, métodos HTTP (GET, POST, DELETE) e execução de CGIs (como PHP ou Python). É um projeto desafiador que testa conceitos de redes, programação assíncrona e gerenciamento de recursos em sistemas Unix-like.
+            </p>
+            
+            <div class="architecture">
+                <div class="component">
+                    <h4>⚙️ Core</h4>
+                    <p>Motor do servidor, I/O não-bloqueante com poll/select/epoll</p>
+                </div>
+                <div class="component">
+                    <h4>📝 Config Parser</h4>
+                    <p>Leitura e interpretação do arquivo de configuração</p>
+                </div>
+                <div class="component">
+                    <h4>🌐 HTTP Handler</h4>
+                    <p>Processamento de requests e responses HTTP</p>
+                </div>
+                <div class="component">
+                    <h4>🔧 CGI Manager</h4>
+                    <p>Execução de scripts CGI (PHP, Python)</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🏗️ Arquitetura do Sistema</h2>
+            
+            <div class="flow-diagram">
+                <div style="margin: 20px 0;">
+                    <div class="flow-step">Cliente</div>
+                    <span class="arrow">→</span>
+                    <div class="flow-step">Socket</div>
+                    <span class="arrow">→</span>
+                    <div class="flow-step">Poll/Select</div>
+                    <span class="arrow">→</span>
+                    <div class="flow-step">Parser HTTP</div>
+                </div>
+                <div style="margin: 20px 0;">
+                    <span class="arrow">↓</span>
+                </div>
+                <div style="margin: 20px 0;">
+                    <div class="flow-step">Router</div>
+                    <span class="arrow">→</span>
+                    <div class="flow-step">Handler</div>
+                    <span class="arrow">→</span>
+                    <div class="flow-step">Response</div>
+                    <span class="arrow">→</span>
+                    <div class="flow-step">Cliente</div>
+                </div>
+            </div>
+
+            <div class="important">
+                <strong>⚠️ CRÍTICO:</strong> O servidor DEVE ser não-bloqueante! Todo I/O deve passar por poll() ou equivalente. Usar read/write sem poll() = nota 0.
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>👥 Distribuição de Tarefas - Equipa de 3</h2>
+            
+            <div class="team-grid">
+                <div class="member">
+                    <h4>🔷 Membro 1: Core & I/O</h4>
+                    <ul class="task-list">
+                        <li>Implementar socket listener</li>
+                        <li>Sistema poll/select/epoll/kqueue</li>
+                        <li>Gerenciar conexões não-bloqueantes</li>
+                        <li>Accept de novos clientes</li>
+                        <li>Buffer management (leitura/escrita)</li>
+                        <li>Gestão de timeouts</li>
+                        <li>Classe Server principal</li>
+                    </ul>
+                </div>
+
+                <div class="member">
+                    <h4>🔶 Membro 2: HTTP & Config</h4>
+                    <ul class="task-list">
+                        <li>Parser de arquivo de configuração</li>
+                        <li>Parser de HTTP requests</li>
+                        <li>Geração de HTTP responses</li>
+                        <li>Implementar métodos GET/POST/DELETE</li>
+                        <li>Sistema de rotas</li>
+                        <li>Páginas de erro padrão</li>
+                        <li>Upload de arquivos</li>
+                    </ul>
+                </div>
+
+                <div class="member">
+                    <h4>🔸 Membro 3: CGI & Features</h4>
+                    <ul class="task-list">
+                        <li>Sistema CGI com fork/execve</li>
+                        <li>Comunicação com CGI (pipes)</li>
+                        <li>Servir arquivos estáticos</li>
+                        <li>Directory listing</li>
+                        <li>Redirects HTTP</li>
+                        <li>Chunked transfer encoding</li>
+                        <li>Testes e debugging</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="tip">
+                <strong>💡 Dica:</strong> Trabalhem em paralelo mas mantenham comunicação constante. Definam interfaces claras entre módulos desde o início.
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>📅 Roadmap de Desenvolvimento</h2>
+            
+            <div class="timeline">
+                <div class="timeline-item">
+                    <h4>Semana 1-2: Fundação</h4>
+                    <ul>
+                        <li>Estudar RFCs HTTP/1.0 e HTTP/1.1</li>
+                        <li>Testar NGINX para entender comportamento</li>
+                        <li>Definir estrutura de classes</li>
+                        <li>Implementar socket básico + poll/select</li>
+                        <li>Parser de configuração básico</li>
+                    </ul>
+                </div>
+
+                <div class="timeline-item">
+                    <h4>Semana 3-4: HTTP Core</h4>
+                    <ul>
+                        <li>Parser completo de HTTP requests</li>
+                        <li>Implementar método GET</li>
+                        <li>Servir arquivos estáticos</li>
+                        <li>Response headers corretos</li>
+                        <li>Status codes apropriados</li>
+                    </ul>
+                </div>
+
+                <div class="timeline-item">
+                    <h4>Semana 5-6: Features Avançadas</h4>
+                    <ul>
+                        <li>Métodos POST e DELETE</li>
+                        <li>Upload de arquivos</li>
+                        <li>Sistema de rotas completo</li>
+                        <li>Páginas de erro customizadas</li>
+                        <li>Multiple ports</li>
+                    </ul>
+                </div>
+
+                <div class="timeline-item">
+                    <h4>Semana 7-8: CGI & Polish</h4>
+                    <ul>
+                        <li>Implementar CGI completo</li>
+                        <li>Testar com PHP/Python</li>
+                        <li>Stress testing</li>
+                        <li>Corrigir memory leaks</li>
+                        <li>Documentação</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🎯 Features Obrigatórias</h2>
+            
+            <div class="feature-grid">
+                <div class="feature">
+                    <strong>✅ Non-blocking I/O</strong><br>
+                    Use poll/select/epoll/kqueue
+                </div>
+                <div class="feature">
+                    <strong>✅ Config File</strong><br>
+                    Parser de configuração tipo NGINX
+                </div>
+                <div class="feature">
+                    <strong>✅ Métodos HTTP</strong><br>
+                    GET, POST, DELETE
+                </div>
+                <div class="feature">
+                    <strong>✅ Static Website</strong><br>
+                    Servir HTML, CSS, JS, imagens
+                </div>
+                <div class="feature">
+                    <strong>✅ File Upload</strong><br>
+                    Receber arquivos via POST
+                </div>
+                <div class="feature">
+                    <strong>✅ CGI Execution</strong><br>
+                    PHP, Python, etc.
+                </div>
+                <div class="feature">
+                    <strong>✅ Error Pages</strong><br>
+                    404, 500, etc.
+                </div>
+                <div class="feature">
+                    <strong>✅ Multiple Ports</strong><br>
+                    Diferentes sites/portas
+                </div>
+                <div class="feature">
+                    <strong>✅ Redirects</strong><br>
+                    HTTP 301/302
+                </div>
+                <div class="feature">
+                    <strong>✅ Directory Listing</strong><br>
+                    Listar conteúdo de pastas
+                </div>
+                <div class="feature">
+                    <strong>✅ Max Body Size</strong><br>
+                    Limitar tamanho de requests
+                </div>
+                <div class="feature">
+                    <strong>✅ Status Codes</strong><br>
+                    Códigos HTTP corretos
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>⚠️ Armadilhas Comuns</h2>
+            
+            <div class="warning">
+                <strong>🚫 NÃO FAZER:</strong>
+                <ul style="margin-top: 10px;">
+                    <li>❌ Usar read/write sem poll() → Nota 0</li>
+                    <li>❌ Bloquear o servidor em qualquer operação</li>
+                    <li>❌ Usar execve para lançar outro servidor</li>
+                    <li>❌ Verificar errno após read/write</li>
+                    <li>❌ Fork para coisas além de CGI</li>
+                    <li>❌ Memory leaks ou file descriptor leaks</li>
+                </ul>
+            </div>
+
+            <div class="tip">
+                <strong>✅ FAZER:</strong>
+                <ul style="margin-top: 10px;">
+                    <li>✓ Testar com telnet e curl</li>
+                    <li>✓ Comparar comportamento com NGINX</li>
+                    <li>✓ Stress test (múltiplas conexões simultâneas)</li>
+                    <li>✓ Usar valgrind para detectar leaks</li>
+                    <li>✓ Testar com browsers reais</li>
+                    <li>✓ Implementar timeouts para conexões</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>📚 Recursos Importantes</h2>
+            
+            <h3>RFCs para Estudar:</h3>
+            <ul style="margin-left: 20px;">
+                <li><strong>RFC 2616</strong> - HTTP/1.1 (especialmente seções 4, 5, 6, 9)</li>
+                <li><strong>RFC 1945</strong> - HTTP/1.0 (mais simples para começar)</li>
+                <li><strong>RFC 3875</strong> - CGI Specification</li>
+            </ul>
+
+            <h3>Conceitos Chave:</h3>
+            <ul style="margin-left: 20px;">
+                <li><strong>Non-blocking I/O</strong> - fcntl(fd, F_SETFL, O_NONBLOCK)</li>
+                <li><strong>poll()</strong> - Multiplexing de I/O</li>
+                <li><strong>HTTP Request</strong> - Method, Path, Headers, Body</li>
+                <li><strong>HTTP Response</strong> - Status Line, Headers, Body</li>
+                <li><strong>CGI</strong> - Environment variables, stdin/stdout</li>
+                <li><strong>Chunked Transfer</strong> - Transfer-Encoding: chunked</li>
+            </ul>
+
+            <h3>Ferramentas de Teste:</h3>
+            <ul style="margin-left: 20px;">
+                <li><code>telnet localhost 8080</code> - Teste manual</li>
+                <li><code>curl -v http://localhost:8080</code> - Debug HTTP</li>
+                <li><code>siege -c 100 -r 10 URL</code> - Stress test</li>
+                <li><code>valgrind --leak-check=full ./webserv</code> - Memory leaks</li>
+                <li>Postman/Insomnia - Testar POST/DELETE</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>🎁 Bonus (se tudo obrigatório funcionar)</h2>
+            <ul style="margin-left: 20px;">
+                <li>🍪 Cookies e gestão de sessões</li>
+                <li>🔧 Múltiplos tipos de CGI</li>
+            </ul>
+            <div class="warning" style="margin-top: 15px;">
+                <strong>Atenção:</strong> Bonus só conta se a parte obrigatória estiver 100% funcional!
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>✨ Exemplo de Configuração</h2>
+            <pre style="background: #2d2d2d; color: #f8f8f2; padding: 20px; border-radius: 10px; overflow-x: auto;">
+server {
+    listen 8080;
+    server_name localhost;
+    
+    error_page 404 /errors/404.html;
+    client_max_body_size 10M;
+    
+    location / {
+        root /var/www/html;
+        index index.html;
+        allowed_methods GET POST;
+    }
+    
+    location /upload {
+        root /var/www/uploads;
+        allowed_methods POST DELETE;
+        client_body_temp_path /tmp;
+    }
+    
+    location /cgi-bin {
+        root /var/www/cgi;
+        cgi_extension .php;
+        cgi_path /usr/bin/php-cgi;
+    }
+}</pre>
+        </div>
+
+        <div class="section" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+            <h2 style="color: white; border-bottom-color: rgba(255,255,255,0.3);">🎯 Checklist Final</h2>
+            <ul style="margin-left: 20px; margin-top: 15px;">
+                <li>☐ Servidor compila sem warnings (-Wall -Wextra -Werror)</li>
+                <li>☐ Makefile com regras corretas</li>
+                <li>☐ Non-blocking I/O implementado corretamente</li>
+                <li>☐ Poll/select funciona para todos os FDs</li>
+                <li>☐ GET, POST, DELETE funcionam</li>
+                <li>☐ Arquivos estáticos são servidos</li>
+                <li>☐ Upload de arquivos funciona</li>
+                <li>☐ CGI executa scripts corretamente</li>
+                <li>☐ Múltiplas portas funcionam</li>
+                <li>☐ Error pages customizadas</li>
+                <li>☐ Status codes corretos</li>
+                <li>☐ Sem memory leaks</li>
+                <li>☐ Sem FD leaks</li>
+                <li>☐ Funciona com browsers reais</li>
+                <li>☐ Suporta stress test</li>
+                <li>☐ Configuração flexível</li>
+            </ul>
+        </div>
+
+        <footer style="text-align: center; padding: 40px; color: white;">
+            <h3>Boa sorte com o projeto! 🚀</h3>
+            <p>Trabalhem em equipa, testem constantemente e não desistam!</p>
+        </footer>
+    </div>
+</body>
+</html>
